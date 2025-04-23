@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root">this is loded from js dom</div>
+
+</body>
+</html>
+
+
+<script type="text/babel">
+//  //React.Fragment-->it is kind of box which is used to write all the 
+//  //react code inside it because react.render can only render one parent 
+//  //and we can also use <></> this as fragment to write our code lets see
+//  //examples -->
+
+    // let element=(
+    //     <>
+    //         <h1>hello react</h1>
+    //     </>
+    // )
+
+    //React functional components
+
+    function Welcome(props){
+        console.log(props);
+        return (
+            <h1>hello {props.name}</h1>
+        );
+    }
+
+    function UserInfo({name,age,city}){ //destructring props because i can
+        return (
+            <div>
+                <h1>User Name: {name}</h1>
+                <h1>User Age: {age}</h1>
+                <h1>User City: {city}</h1>
+            </div>
+        );
+    }
+
+    function ButtonComponent({name,onClick}){
+        return (
+            <button onClick={onClick}>{name}</button>
+        )
+    }
+
+    function login(){
+        alert("user logged in");
+    }
+
+    function logout(){
+        alert("user logged out");
+    }
+
+    function App(){
+        return(
+            <>
+           {/* 
+            Welcome() this will not work here because it is returning 
+             javascript code while react return jsx so if we want to 
+             write javascript in react we have to do ==>*/}
+
+
+             {/*Welcome()*/}
+
+
+             <Welcome name="Adarsh"/>
+
+            { /* reusing same component witch diffrent props*/}
+             <Welcome name="alice"/>
+             <Welcome name="user"/>
+
+             <UserInfo name="Adarsh" age={23} city="Muz"/>
+             <UserInfo name="Alice" age={20} city="Arizona"/>
+
+             <ButtonComponent name="login" onClick={login}/>
+             <ButtonComponent name="logout" onClick={logout}/>
+
+            </>
+        )
+    }
+
+    let root=ReactDOM.createRoot(document.getElementById("root"));
+    // Diff ways to call functional components
+    root.render(<App/>); //way 1 mostly used
+
+    //root.render(<Welcome></Welcome>)// way 2
+    //root.render(Welcome()); // way 3
+</script>
