@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root">This is real dom</div>
+</body>
+
+</html>
+
+<script type="text/babel">
+    
+    function UserProfile(){
+        const [user,setUser]=React.useState({name:"Adarsh",age:23});
+        
+        function updateAge(){
+            setUser({...user,age:user.age+1});
+            
+        }
+
+        return(
+            <>
+             <h1>{user.name} is {user.age} year old</h1>
+             <button onClick={updateAge}>updateAge</button>
+            </>
+        )
+    }
+
+    function App() {
+        const [text, setText] = React.useState("hello react");
+
+        const [count, setCounter] = React.useState(0);
+
+
+        function changeText() {
+            // if(text=="hello react"){
+            //     setText("changed");
+            // }else{
+            //     setText("hello react");
+            // }
+
+            setText(text == "hello react" ? "changed" : "hello react");
+        }
+
+        function counter() {
+            // setCounter(count + 1);
+            // setCounter(count+1);
+            // setCounter(count+1);
+            // setCounter(count+1);
+            // when multiple function with same operation is called in react
+            //then the react do not immediatly show the reasult it waits untill 
+            //all the function is called and the update the value
+            
+            // setCounter(0+ 1);
+            // setCounter(0+1);
+            // setCounter(0+1);
+            // setCounter(0+1);
+
+            // to fix this issue we have to pass a callback inside setCounter
+
+            setCounter((prev)=>prev+1);
+            setCounter((prev)=>prev+1);
+            setCounter((prev)=>prev+1);
+            setCounter((prev)=>prev+1);
+
+            // THIS IS CALLED AS RECONCILATION
+        }
+        
+
+        return (
+            <>
+                <h1>{text}</h1>
+                <button onClick={changeText}>change</button>
+                <h1>{count}</h1>
+                <button onClick={counter}>Increase count</button>
+                <UserProfile/>
+            </>
+        )
+    }
+
+    let root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+</script>
+
