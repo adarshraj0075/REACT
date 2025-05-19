@@ -65,6 +65,7 @@
     function handelChange(e) {
       console.log(e.target);
       const { name, value } = e.target;
+      console.log(name);
       setFormData({ ...formData, [name]: value });
     }
 

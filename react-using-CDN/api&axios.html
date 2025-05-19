@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="root">this is real dom</div>
+  </body>
+</html>
+
+<script type="text/babel">
+  function App() {
+    const [movie, setMovie] = React.useState([]);
+    const [movieName, setMovieName] = React.useState("");
+    //const [data, setData] = React.useState([]);
+
+   
+      async function fetchData() {
+        // try {
+        //   let resp = await fetch("https://jsonplaceholder.typicode.com/posts");
+        //   let res = await resp.json();
+        //   console.log(res);
+        //   //setData(res); i cannot directly use setData beacuse
+        //   //it set data and then causes rerender which will call
+        //   //again fetchData() that leads to infinite function call
+        //   //which leads to infinit function request
+        //   //To fix this either we use useEffect or we can call the
+        //   //set data on button onClick event
+        //   setData(res);
+        // } catch (error) {
+        //   console.log(error);
+        // }
+
+        let resp = await fetch(
+          "https://react-movie-b7fd0-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json"
+        );
+        let res = await resp.json();
+        //console.log(res);
+        let finalRes = Object.entries(res).map(([id, movies]) => ({
+          id,
+          ...movies,
+        }));
+        setMovie(finalRes);
+        console.log(finalRes);
+       
+      }
+
+      React.useEffect(()=>{
+        fetchData();
+      },[]);
+     
+    
+
+    async function postMovie() {
+        if (!movieName) return alert("please enter a movie");
+  
+        let resp = await fetch(
+          `https://react-movie-b7fd0-default-rtdb.asia-southeast1.firebasedatabase.app/movies.json`,
+          {
+            method: "POST",
+            body: JSON.stringify({ name: movieName }),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        setMovieName("");
+      }
+
+    return (
+        <>
+        <h2>Rect fetch data</h2>
+        {/*<button onClick={fetchData}>FetchData</button>*/}
+
+        <input
+          name="movie"
+          value={movieName}
+          onChange={(e) => setMovieName(e.target.value)}
+        />
+        <button onClick={postMovie}>PostMovie</button>
+      {  movie.map((ele) => (
+          <h2 key={ele.id}>{ele.name}</h2>
+        ))
+       }
+      </>
+    );
+  }
+  let root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(<App />);
+</script>
